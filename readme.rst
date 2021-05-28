@@ -2,7 +2,7 @@
 Apa itu E-library
 #################
 
-E-library adalah sebuah aplikasi perpustakaan berbasis web yang dibuat menggunakan Framework `CodeIgniter` <https://codeigniter.com/download>`_.
+E-library adalah sebuah aplikasi perpustakaan berbasis web yang dibuat menggunakan Framework `CodeIgniter <https://codeigniter.com/download>`_.
 
 
 **************************
