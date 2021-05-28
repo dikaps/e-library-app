@@ -43,7 +43,12 @@ class Home extends CI_Controller
   public function detailBuku()
   {
     $id = $this->uri->segment(3);
-    $data['user'] = "Pengunjung";
+    if ($this->session->userdata('email')) {
+      $user = $this->ModelUser->cekData(['email' => $this->session->userdata('email')])->row_array();
+      $data['user'] = $user['nama'];
+    } else {
+      $data['user'] = "Pengunjung";
+    }
     $data['title'] = "Detail Buku";
 
 
@@ -60,6 +65,7 @@ class Home extends CI_Controller
       $data['dibooking'] = $fields->dibooking;
       $data['stok'] = $fields->stok;
       $data['id'] = $id;
+      $data['halaman'] = $fields->jml_halaman;
     }
 
     $this->load->view('templates/templates-user/header', $data);
@@ -78,6 +84,32 @@ class Home extends CI_Controller
     $this->db->limit($count);
     $buku = $this->db->get('buku')->result_array();
     foreach ($buku as $b) {
+      if ($b['stok'] < 1) {
+        $btnBooking = '
+          <a href="#" class="btn-buku booking">
+            <svg class="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+  
+            Kosong
+          </a>
+        ';
+      } else {
+        $btnBooking = '
+          <a href="' . base_url('booking/tambahBooking/' . $b['id']) . '" class="btn-buku booking">
+            <svg class="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+  
+            Booking
+          </a>
+        ';
+      }
+
       $output .= '
         <!-- card -->
       <div class="card-buku">
@@ -98,15 +130,7 @@ class Home extends CI_Controller
         </div>
         <!-- action card -->
         <div class="flex flex-col">
-          <a href="" class="btn-buku booking">
-            <svg class="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <path d="M16 10a4 4 0 0 1-8 0"></path>
-            </svg>
-
-            Booking
-          </a>
+          ' . $btnBooking . '
           <a href="' . base_url('home/detailBuku/' . $b['id']) . '" class="btn-buku detail mt-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
               <circle cx="12" cy="12" r="10"></circle>

@@ -10,12 +10,13 @@ $booking = $this->ModelBooking->getDataWhere('booking', ['id_user' => $this->ses
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title><?= $judul; ?> - E-library</title>
   <link rel="stylesheet" href="<?= base_url('assets/user/css/'); ?>tailwind.css" />
+  <link rel="stylesheet" href="<?= base_url('assets/user/sweetalert2/'); ?>sweetalert2.min.css" />
 </head>
 
 <body class="font-body bg-secondary-300">
   <!-- navbar -->
   <nav class="w-4/5 mx-auto flex justify-between py-10 text-secondary-100">
-    <a href="#" class="font-semibold sm:text-xl text-lg">E-Library</a>
+    <a href="<?= base_url(); ?>" class="font-semibold sm:text-xl text-lg">E-Library</a>
     <div class="flex relative items-center">
       <span class="text-xs sm:text-lg"><?= $user; ?></span>
 
@@ -29,7 +30,7 @@ $booking = $this->ModelBooking->getDataWhere('booking', ['id_user' => $this->ses
       <div class="w-56 absolute bg-white sm:-right-10 -right-7 top-10 sm:top-12 rounded-sm py-3 shadow-lg hidden transition ease-in" id="dropdown">
         <div class="flex flex-col">
           <?php if ($this->session->userdata('email')) : ?>
-            <a href="./src/pages/auth/login.html" class="py-3 px-6 flex text-sm hover:bg-secondary-200">
+            <a href="<?= base_url('member/myprofil'); ?>" class="py-3 px-6 flex text-sm hover:bg-secondary-200">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B1C1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
@@ -37,7 +38,7 @@ $booking = $this->ModelBooking->getDataWhere('booking', ['id_user' => $this->ses
               Profile Saya
             </a>
 
-            <a href="./src/pages/auth/daftar.html" class="py-3 px-6 flex text-sm hover:bg-secondary-200">
+            <a href="<?= base_url('booking'); ?>" class="py-3 px-6 flex text-sm hover:bg-secondary-200">
               <svg class="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B1C1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
                 <line x1="3" y1="6" x2="21" y2="6"></line>

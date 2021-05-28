@@ -153,7 +153,7 @@
         <form action="<?= base_url('user/ubahfoto/' . $user['id']); ?>" method="POST" enctype="multipart/form-data">
           <div class="modal-body">
             <div class="d-flex justify-content-center">
-              <img src="<?= base_url('assets/img/profile/') . $user['image']; ?>" alt="images" id="image" class="img-fluid w-50 rounded-circle" />
+              <img src="<?= base_url('assets/img/profile/') . $user['image']; ?>" alt="images" id="img" class="img-fluid w-50 rounded-circle" />
             </div>
             <div class="form-group">
               <input type="file" class="form-control mt-3" name="image" onchange="loadFile(event)" />

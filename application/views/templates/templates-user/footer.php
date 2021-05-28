@@ -7,6 +7,7 @@
   </span>
 </footer>
 <script src="<?= base_url('assets/'); ?>js/jquery-3.5.1.min.js"></script>
+<script src="<?= base_url('assets/user/sweetalert2/'); ?>sweetalert2.all.min.js"></script>
 <script src="<?= base_url('assets/user/'); ?>js/app.js"></script>
 </body>
 

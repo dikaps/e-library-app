@@ -107,6 +107,8 @@ class Buku extends CI_Controller
   public function hapusBuku()
   {
     $where = ['id' => $this->uri->segment(3)];
+    $buku  = $this->db->get_where('buku', $where)->row_array();
+    unlink('assets/img/upload/' . $buku['image']);
     $this->ModelBuku->hapusBuku($where);
 
     $this->session->set_flashdata('pesan', 'Buku Berhasil dihapus!');
@@ -183,14 +185,15 @@ class Buku extends CI_Controller
       }
 
       $data = [
-        'judul_buku' => $this->input->post('judul_buku', true),
-        'id_kategori' => $this->input->post('id_kategori', true),
-        'pengarang' => $this->input->post('pengarang', true),
-        'penerbit' => $this->input->post('penerbit', true),
+        'judul_buku'   => $this->input->post('judul_buku', true),
+        'id_kategori'  => $this->input->post('id_kategori', true),
+        'pengarang'    => $this->input->post('pengarang', true),
+        'penerbit'     => $this->input->post('penerbit', true),
         'tahun_terbit' => $this->input->post('tahun_terbit', true),
-        'isbn' => $this->input->post('isbn', true),
-        'stok' => $this->input->post('stok', true),
-        'image' => $gambar
+        'isbn'         => $this->input->post('isbn', true),
+        'stok'         => $this->input->post('stok', true),
+        'image'        => $gambar,
+        'jml_halaman'  => $this->input->post('jml_halaman', true),
       ];
 
       $id = $this->uri->segment(3);

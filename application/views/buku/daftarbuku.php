@@ -15,10 +15,10 @@
 </section>
 
 <section class="sec text-secondary-100">
-  <form action="#" method="POST" autocomplete="off">
+  <form action="#" method="POST" autocomplete="off" class="mb-3">
     <input type="text" name="nama" id="nama" class="w-full bg-secondary-400 border-2 focus:border-gray-400 focus:bg-secondary-300 outline-none rounded-md px-4 py-2 text-secondary-100" placeholder="Cari Buku / Penulis / Penerbit / Kategori ..." />
   </form>
-
+  <div class="flash-data" data-flashdata="<?= $this->session->flashdata('pesan'); ?>"></div>
   <h1 class="font-semibold text-2xl mt-5">Daftar Buku</h1>
 
   <div class="w-full flex flex-wrap sm:flex-row flex-col my-5" id="buku">

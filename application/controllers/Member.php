@@ -8,85 +8,6 @@ class Member extends CI_Controller
     parent::__construct();
   }
 
-  public function index()
-  {
-    // var_dump(password_hash($this->input->post('password', true), PASSWORD_DEFAULT));
-    // die;
-    $this->_login();
-  }
-
-  private function _login()
-  {
-    $email = htmlspecialchars($this->input->post('email', true));
-    $password = $this->input->post('password', true);
-
-    $user = $this->ModelUser->cekData(['email' => $email])->row_array();
-
-    // cek user ada apa ngga
-    if ($user) {
-      // cek apakah user sudah aktif
-      if ($user['is_active'] == 1) {
-        // cek password
-        if (password_verify($password, $user['password'])) {
-
-          $data = [
-            'email'   => $user['email'],
-            'role_id' => $user['role_id'],
-            'id_user' => $user['id'],
-            'nama'    => $user['nama']
-          ];
-
-          $this->session->set_userdata($data);
-          redirect('home');
-        } else {
-          $this->session->set_flashdata('pesan', '<div class="alert alert-danger alertmessage" role="alert">Password salah!!</div>');
-          redirect('home');
-        }
-      } else {
-        $this->session->set_flashdata('pesan', '<div class="alert alertdanger alert-message" role="alert">User belum diaktifasi!!</div>');
-        redirect('home');
-      }
-    } else {
-      $this->session->set_flashdata('pesan', '<div class="alert alertdanger alert-message" role="alert">Email tidak terdaftar!!</div>');
-      redirect('home');
-    }
-  }
-
-  public function daftar()
-  {
-    $this->form_validation->set_rules('nama', 'Nama Lengkap', 'required', [
-      'required' => 'Nama Belum diis!!'
-    ]);
-    $this->form_validation->set_rules('alamat', 'Alamat Lengkap', 'required', [
-      'required' => 'Alamat Belum diis!!'
-    ]);
-    $this->form_validation->set_rules('email', 'Alamat Email', 'required|trim|valid_email|is_unique[user.email]', [
-      'valid_email' => 'Email Tidak Benar!!',
-      'required' => 'Email Belum diisi!!',
-      'is_unique' => 'Email Sudah Terdaftar!'
-    ]);
-    $this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[3]|matches[password2]', [
-      'matches' => 'Password Tidak Sama!!',
-      'min_length' => 'Password Terlalu Pendek'
-    ]);
-    $this->form_validation->set_rules('password2', 'Repeat Password', 'required|trim|matches[password1]');
-
-    $email = $this->input->post('email', true);
-    $data = [
-      'nama' => htmlspecialchars($this->input->post('nama', true)),
-      'alamat' => $this->input->post('alamat', true),
-      'email' => htmlspecialchars($email),
-      'image' => 'default.jpg',
-      'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
-      'role_id' => 2,
-      'is_active' => 1,
-      'tanggal_input' => time()
-    ];
-    $this->ModelUser->simpanData($data);
-    $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-message" role="alert">Selamat!! akun anggota anda sudah dibuat.</div>');
-    redirect(base_url());
-  }
-
   public function myProfil()
   {
     $user = $this->ModelUser->cekData(['email' => $this->session->userdata('email')])->row_array();
@@ -101,7 +22,6 @@ class Member extends CI_Controller
 
     $this->load->view('templates/templates-user/header', $data);
     $this->load->view('member/index', $data);
-    $this->load->view('templates/templates-user/modal');
     $this->load->view('templates/templates-user/footer', $data);
   }
 
@@ -113,6 +33,8 @@ class Member extends CI_Controller
       'image' => $user['image'],
       'user' => $user['nama'],
       'email' => $user['email'],
+      'alamat' => $user['alamat'],
+      'no_telp' => $user['no_telp'],
       'tanggal_input' => $user['tanggal_input'],
     ];
     $data['judul'] = 'Profil Saya';
@@ -120,15 +42,31 @@ class Member extends CI_Controller
       'required' => 'Nama tidak Boleh Kosong'
     ]);
 
+    $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim', [
+      'required' => 'Alamat tidak Boleh Kosong'
+    ]);
+
+    $this->form_validation->set_rules('no_telp', 'No Telp', 'required|trim', [
+      'required' => 'No Telp tidak Boleh Kosong'
+    ]);
+
     if ($this->form_validation->run() == false) {
       $this->load->view('templates/templates-user/header', $data);
       $this->load->view('member/ubah-anggota', $data);
-      $this->load->view('templates/templates-user/modal');
       $this->load->view('templates/templates-user/footer', $data);
     } else {
-      $nama = $this->input->post('nama', true);
-      $email = $this->input->post('email', true);
-      //jika ada gambar yang akan diupload
+
+      $nama = htmlspecialchars($this->input->post('nama', true));
+      $email = htmlspecialchars($this->input->post('email', true));
+      $alamat = $this->input->post('alamat', true);
+      $no_telp = $this->input->post('no_telp', true);
+
+      $data = [
+        'nama' => $nama,
+        'alamat' => $alamat,
+        'no_telp' => $no_telp
+      ];
+
       $upload_image = $_FILES['image']['name'];
 
       if ($upload_image) {
@@ -152,11 +90,10 @@ class Member extends CI_Controller
           'echo' . $this->upload->display_errors();
         }
       }
-      $this->db->set('nama', $nama);
-      $this->db->where('email', $email);
-      $this->db->update('user');
 
-      $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-message" role="alert">Profil Berhasil diubah </div>');
+      $this->db->update('user', $data, ['email' => $email]);
+
+      $this->session->set_flashdata('pesan', '<div class="alert alert-primary pesan mt-3" >Profil Berhasil diubah </div>');
       redirect('member/myprofil');
     }
   }
@@ -166,7 +103,7 @@ class Member extends CI_Controller
   {
     $this->session->unset_userdata('email');
     $this->session->unset_userdata('role_id');
-    $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-message" role="alert">Anda telah logout!!</div>');
+    $this->session->set_flashdata('pesan', '<div class="alert alert-primary pesan mt-3" >Anda telah logout!!</div>');
     redirect('home');
   }
 }

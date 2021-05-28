@@ -1,3 +1,11 @@
+let loadFile = (event) => {
+	let img = document.querySelector("#img");
+	img.src = URL.createObjectURL(event.target.files[0]);
+	img.onload = () => {
+		URL.revokeObjectURL(img.src);
+	};
+};
+
 $(document).ready(function () {
 	$("#nav").click(function (e) {
 		e.preventDefault();
@@ -38,4 +46,29 @@ $(document).ready(function () {
 	setInterval(() => {
 		$(".pesan").hide();
 	}, 3000);
+
+	$(".btnKonfirmasi").click(function (e) {
+		e.preventDefault();
+		const href = $(this).attr("href");
+		Swal.fire({
+			title: "Apakah anda yakin",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonText: `Hapus`,
+			dangerMode: true,
+		}).then((result) => {
+			if (result.isConfirmed) {
+				Swal.fire("Berhasil dihapus!", "", "success");
+				document.location.href = href;
+			}
+		});
+	});
+
+	const pesan = $(".flash-data").data("flashdata");
+	if (pesan) {
+		Swal.fire({
+			title: pesan,
+			icon: "success",
+		});
+	}
 });

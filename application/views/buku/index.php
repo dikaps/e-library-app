@@ -151,7 +151,7 @@
 
 							<div class="col-md-6 col-12">
 								<div class="w-25 mt-3 rounded">
-									<img class="img-fluid shadow rounded" id="image">
+									<img src class="img-fluid shadow rounded" id="img">
 								</div>
 							</div>
 						</div>

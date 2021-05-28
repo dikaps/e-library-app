@@ -1,5 +1,5 @@
 let loadFile = (event) => {
-	let img = document.querySelector("#image");
+	let img = document.querySelector("#img");
 	img.src = URL.createObjectURL(event.target.files[0]);
 	img.onload = () => {
 		URL.revokeObjectURL(img.src);
@@ -77,8 +77,7 @@ $(document).ready(function () {
 		$("input[name=tahun_terbit]").val("");
 		$("input[name=isbn]").val("");
 		$("input[name=stok]").val("");
-		$("#image").attr("src", baseUrl + "assets/img/upload/" + "");
-		$("#image").addClass("d-none");
+		$("#img").attr("src", "");
 		$("input[name=jml_halaman]").val("");
 	});
 
@@ -106,8 +105,8 @@ $(document).ready(function () {
 				$("input[name=stok]").val(res.stok);
 				$("input[name=jml_halaman]").val(res.jml_halaman);
 				$("input[name=old_pict]").val(res.image);
-				$("#image").attr("src", baseUrl + "assets/img/upload/" + res.image);
-				$("#image").removeClass("d-none");
+				$("#img").attr("src", baseUrl + "assets/img/upload/" + res.image);
+				$("#img").removeClass("d-none");
 			},
 		});
 	});

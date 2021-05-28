@@ -5,7 +5,6 @@ class Autentifikasi extends CI_Controller
 
   public function index()
   {
-    //jika statusnya sudah login, maka tidak bisa mengakses halaman login alias dikembalikan ke tampilan user
     if ($this->session->userdata('email')) {
       redirect('admin');
     }
@@ -43,7 +42,8 @@ class Autentifikasi extends CI_Controller
         if (password_verify($password, $user['password'])) {
           $data = [
             'email' => $user['email'],
-            'role_id' => $user['role_id']
+            'role_id' => $user['role_id'],
+            'id_user' => $user['id']
           ];
 
           $this->session->set_userdata($data);
@@ -129,7 +129,7 @@ class Autentifikasi extends CI_Controller
       </div>');
 
       $data = [
-        'email' => $email,
+        'ijin' => $email,
         'type'  => 'registrasi'
       ];
       $this->session->set_userdata($data);
@@ -167,6 +167,18 @@ class Autentifikasi extends CI_Controller
         </div>
       ';
       $this->email->message($message);
+    } else if ($type == 'lupaPassword') {
+      $this->email->subject('Verifikasi Akun');
+      $message = '
+        <div style="font-family: nunito, verdana">
+          <h1>Hai, Permintaan Reset Password anda diterima</h1>
+          <p>
+            Kode verifikasi anda adalah : <span style="padding: 8px 25px; color: white; background-color: #0275d8; border-radius: 5px; letter-spacing: 2px; font-weight: 600; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);">' . $token . '</span>
+          </p>
+          <p>Kode verifikasi tersebut hanya berlaku 1x 24 Jam</p>
+        </div>
+      ';
+      $this->email->message($message);
     }
 
     if ($this->email->send()) {
@@ -179,7 +191,7 @@ class Autentifikasi extends CI_Controller
 
   public function verifikasi()
   {
-    if (!$this->session->userdata('email')) {
+    if (!$this->session->userdata('ijin')) {
       $this->session->set_flashdata('pesan', '<div class="alert alert-danger pesan">
         <div class="w-10">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -200,7 +212,7 @@ class Autentifikasi extends CI_Controller
     ]);
 
     $data['judul'] = "Verfikasi Akun";
-    $email = $this->session->userdata('email');
+    $email = $this->session->userdata('ijin');
     $email = explode('@', $email);
     $hide = substr($email[0], 0, 3) . '***@' . $email[1];
     $data['email'] = $hide;
@@ -212,20 +224,32 @@ class Autentifikasi extends CI_Controller
     } else {
       $code = $this->input->post('code', true);
 
-      $user = $this->db->get_where('token', ['email' => $this->session->userdata('email')])->row_array();
+      $user = $this->db->get_where('token', ['email' => $this->session->userdata('ijin')])->row_array();
 
       if ($user['token'] == $code) {
         if (time() - $user['date_created'] < (60 * 60 * 24)) {
-          $this->db->set('is_active', 1);
-          $this->db->where('email', $this->session->userdata('email'));
-          $this->db->update('user');
+          if ($this->session->userdata('type') == 'registrasi') {
+            $this->db->set('is_active', 1);
+            $this->db->where('email', $this->session->userdata('ijin'));
+            $this->db->update('user');
+            $this->db->delete('token', ['token' => $user['token']]);
 
-          $this->session->unset_userdata('email');
-          $this->session->unset_userdata('type');
-          $this->db->delete('token', ['token' => $user['token']]);
+            $this->session->unset_userdata('ijin');
+            $this->session->unset_userdata('type');
+            $this->session->set_flashdata('pesan', '<div class="alert alert-primary pesan">Email ' . $data['email'] . ' berhasil diaktivasi</div>');
+            redirect('autentifikasi');
+          } else {
+            $this->session->unset_userdata('ijin');
+            $this->session->unset_userdata('type');
+            $this->db->delete('token', ['token' => $user['token']]);
 
-          $this->session->set_flashdata('pesan', '<div class="alert alert-primary pesan">Email ' . $data['email'] . ' berhasil diaktivasi</div>');
-          redirect('autentifikasi');
+            $ijin = [
+              'ijinReset' => $user['email']
+            ];
+            $this->session->set_userdata($ijin);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-primary pesan">Kode verifikasi benar, Silahkan Reset ulang password anda</div>');
+            redirect('autentifikasi/resetPassword');
+          }
         } else {
           $this->db->delete('user', ['email' => $user['email']]);
           $this->db->delete('token', ['token' => $user['token']]);
@@ -241,6 +265,7 @@ class Autentifikasi extends CI_Controller
           $this->session->set_flashdata('pesan', '<div class="alert alert-danger pesan">Kode Verifikasi Salah! Akun anda kami hapus</div>');
           redirect('Autentifikasi');
         } else {
+          $this->db->delete('token', ['token' => $user['token']]);
           $this->session->set_flashdata('pesan', '<div class="alert alert-danger pesan">Kode Verifikasi Salah! Mohon konfirmasi ulang email anda</div>');
           redirect('autentifikasi/lupaPassword');
         }
@@ -251,9 +276,87 @@ class Autentifikasi extends CI_Controller
   public function lupaPassword()
   {
     $data['judul'] = "Lupa Sandi";
-    $this->load->view('templates/aute_header', $data);
-    $this->load->view('autentifikasi/lupa-password');
-    $this->load->view('templates/aute_footer');
+
+    $this->form_validation->set_rules('email', 'Alamat Email', 'required|trim|valid_email', [
+      'required' => 'Email Belum diisi!!',
+      'valid_email' => 'Email Tidak Benar!!',
+    ]);
+
+    if ($this->form_validation->run() == false) {
+      $this->load->view('templates/aute_header', $data);
+      $this->load->view('autentifikasi/lupa-password');
+      $this->load->view('templates/aute_footer');
+    } else {
+      $user = $this->ModelUser->cekData(['email' => $this->input->post('email', true)])->row_array();
+      if ($user) {
+        $token = rand(1000, 9999);
+        $user = [
+          'email' => $user['email'],
+          'token' => $token,
+          'date_created' => time()
+        ];
+
+        $this->db->insert('token', $user);
+        $this->_sendEmail($token, 'lupaPassword');
+        $data = [
+          'ijin' => $user['email'],
+          'type'  => 'lupaPassword'
+        ];
+        $this->session->set_userdata($data);
+        redirect('autentifikasi/verifikasi');
+      } else {
+        $this->session->set_flashdata('pesan', '<div class="alert alert-danger pesan">Email Tidak Ditemukan!</div>');
+        redirect('autentifikasi/lupaPassword');
+      }
+    }
+  }
+
+  public function resetPassword()
+  {
+    if (!$this->session->userdata('ijinReset')) {
+      $this->session->set_flashdata('pesan', '<div class="alert alert-danger pesan">
+        <div class="w-10">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        Akses Ditolak!
+      </div>');
+      redirect('autentifikasi');
+    }
+    $data['judul'] = "Reset Password";
+
+    $this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[3]|matches[password2]', [
+      'matches' => 'Password Tidak Sama!!',
+      'min_length' => 'Password Terlalu Pendek'
+    ]);
+    $this->form_validation->set_rules('password2', 'Repeat Password', 'required|trim|matches[password1]');
+
+    if ($this->form_validation->run() == false) {
+      $this->load->view('templates/aute_header', $data);
+      $this->load->view('autentifikasi/reset-password');
+      $this->load->view('templates/aute_footer');
+    } else {
+      $password1 = $this->input->post('password1', true);
+
+      $user = $this->db->get_where('user', ['email' => $this->session->userdata('ijinReset')])->row_array();
+
+      if (password_verify($password1, $user['password'])) {
+        $this->session->set_flashdata('pesan', '<div class="alert alert-danger pesan">Password baru tidak boleh sama dengan password sebelum nya.</div>');
+        redirect('autentifikasi/resetPassword');
+      } else {
+        $data = [
+          'password' => password_hash($password1, PASSWORD_DEFAULT)
+        ];
+        $this->db->update('user', $data, ['email' => $this->session->userdata('ijinReset')]);
+        $this->session->set_flashdata('pesan', '<div class="alert alert-primary pesan">Reset Password berhasil, silahkan login.</div>');
+
+        $this->session->unset_userdata('ijinReset');
+        redirect('autentifikasi');
+      }
+    }
   }
 
   public function logout()
@@ -261,7 +364,7 @@ class Autentifikasi extends CI_Controller
     $this->session->unset_userdata('email');
     $this->session->unset_userdata('role_id');
 
-    $this->session->set_flashdata('pesan', '<h1 class="alert alert-success pesan" role="alert">Anda telah logout!!</h1>');
+    $this->session->set_flashdata('pesan', '<div class="alert alert-primary pesan" role="alert">Anda telah logout!!</div>');
     redirect('autentifikasi');
   }
 

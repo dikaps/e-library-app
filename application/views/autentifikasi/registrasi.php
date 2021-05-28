@@ -38,7 +38,7 @@
 					</div>
 					<div class="w-1/2">
 						<label for="password2" class="font-semibold mb-3">Ulangi Kata Sandi</label>
-						<input type="password" name="password2" id="password2" class="bg-secondary-400 border-2 focus:border-gray-400 focus:bg-secondary-300 outline-none rounded-md px-4 py-2 text-secondary-100" required />
+						<input type="password" name="password2" id="password2" class="bg-secondary-400 border-2 focus:border-gray-400 focus:bg-secondary-300 outline-none rounded-md px-4 py-2 text-secondary-100 w-full" required />
 						<?= form_error('passsword2', '<span style="color:#d9534f;">', '</span>'); ?>
 					</div>
 				</div>

@@ -39,7 +39,7 @@
           <div class="sm:w-80 w-full">
             <p class="">Jumlah Halaman</p>
           </div>
-          <p class="font-semibold">568</p>
+          <p class="font-semibold"><?= $halaman; ?></p>
         </dt>
       </dl>
 

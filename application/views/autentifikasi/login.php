@@ -13,7 +13,7 @@
       <form method="POST">
         <div class="text-secondary-100 flex flex-col my-5">
           <label for="email" class="font-semibold mb-3">Email</label>
-          <input type="email" name="email" id="email" class="bg-secondary-400 border-2 focus:border-gray-400 focus:bg-secondary-300 outline-none rounded-md px-4 py-2 text-secondary-100" autofocus />
+          <input type="email" name="email" id="email" class="bg-secondary-400 border-2 focus:border-gray-400 focus:bg-secondary-300 outline-none rounded-md px-4 py-2 text-secondary-100" autofocus required />
           <?= form_error('email', '<span style="color:#d9534f;">', '</span>'); ?>
         </div>
 
@@ -23,7 +23,7 @@
 
             <a href="<?= base_url('autentifikasi/'); ?>lupaPassword" class="font-light text-primary-200">Lupa Sandi?</a>
           </div>
-          <input type="password" name="password" id="password" class="bg-secondary-400 border-2 focus:border-gray-400 focus:bg-secondary-300 outline-none rounded-md px-4 py-2 text-secondary-100" />
+          <input type="password" name="password" id="password" class="bg-secondary-400 border-2 focus:border-gray-400 focus:bg-secondary-300 outline-none rounded-md px-4 py-2 text-secondary-100" required />
           <?= form_error('password', '<span style="color:#d9534f;">', '</span>'); ?>
         </div>
 

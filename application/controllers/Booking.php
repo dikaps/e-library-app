@@ -24,7 +24,7 @@ class Booking extends CI_Controller
 
     $dtb = $this->ModelBooking->showtemp(['id_user' => $id_user])->num_rows();
     if ($dtb < 1) {
-      $this->session->set_flashdata('pesan', '<div class="alert alert-message alert-danger" role="alert">Tidak Ada Buku dikeranjang</div>');
+      $this->session->set_flashdata('pesan', '<div class="alert pesan alert-danger" >Tidak Ada Buku dikeranjang</div>');
       redirect(base_url());
     } else {
       $data['temp'] = $this->db->query("select image, judul_buku, penulis, penerbit, tahun_terbit,id_buku from temp where id_user='$id_user'")->result_array();
@@ -32,7 +32,6 @@ class Booking extends CI_Controller
     $data['judul'] = "Data Booking";
     $this->load->view('templates/templates-user/header', $data);
     $this->load->view('booking/data-booking', $data);
-    $this->load->view('templates/templates-user/modal');
     $this->load->view('templates/templates-user/footer');
   }
 
@@ -60,23 +59,24 @@ class Booking extends CI_Controller
 
     $databooking = $this->db->query("select * from booking where id_user='$userid'")->num_rows();
     if ($databooking > 0) {
-      $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-message" role="alert">Masih Ada booking buku sebelumnya yang belum diambil.<br> Ambil Buku yang dibooking atau tunggu 1x24 Jam untuk bisa booking kembali </div>');
+      $this->session->set_flashdata('pesan', '<div class="alert alert-danger pesan" >Masih Ada booking buku sebelumnya yang belum diambil.<br> Ambil Buku yang dibooking atau tunggu 1x24 Jam untuk bisa booking kembali </div>');
       redirect(base_url());
     }
 
     if ($temp > 0) {
-      $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-message" role="alert">Buku ini Sudah anda booking </div>');
+      $this->session->set_flashdata('pesan', '<div class="alert alert-danger pesan" >Buku ini Sudah anda booking </div>');
       redirect(base_url() . 'home');
     }
 
     if ($tempuser == 3) {
-      $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-message" role="alert">Booking Buku Tidak Boleh Lebih dari 3</div>');
+      $this->session->set_flashdata('pesan', '<div class="alert alert-danger pesan" >Booking Buku Tidak Boleh Lebih dari 3</div>');
       redirect(base_url() . 'home');
     }
 
     $this->ModelBooking->createTemp();
     $this->ModelBooking->insertData('temp', $isi);
-    $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-message" role="alert">Buku berhasil ditambahkan ke keranjang </div>');
+    // $this->session->set_flashdata('pesan', '<div class="alert alert-primary pesan" >Buku berhasil ditambahkan ke keranjang </div>');
+    $this->session->set_flashdata('pesan', 'ditambahkan');
     redirect(base_url() . 'home');
   }
 
@@ -88,7 +88,7 @@ class Booking extends CI_Controller
     $this->ModelBooking->deleteData(['id_buku' => $id_buku], 'temp');
     $kosong = $this->db->query("select*from temp where id_user='$id_user'")->num_rows();
     if ($kosong < 1) {
-      $this->session->set_flashdata('pesan', '<div class="alert alert-message alert-danger" role="alert">Tidak Ada Buku dikeranjang</div>');
+      $this->session->set_flashdata('pesan', '<div class="alert pesan alert-danger" >Tidak Ada Buku dikeranjang</div>');
       redirect(base_url());
     } else {
       redirect(base_url() . 'booking');
@@ -122,13 +122,12 @@ class Booking extends CI_Controller
     $data['items'] = $this->db->query("select * from booking bo, booking_detail d, buku bu where d.id_booking = bo.id_booking and d.id_buku=bu.id and bo.id_user='$where'")->result_array();
 
     if (count($data['items']) < 1) {
-      $this->session->set_flashdata('pesan', '<div class="alert alert-message alert-danger" role="alert">Tidak Ada Buku yang anda pesan!</div>');
+      $this->session->set_flashdata('pesan', '<div class="alert pesan alert-danger" >Tidak Ada Buku yang anda pesan!</div>');
       redirect(base_url());
     }
 
     $this->load->view('templates/templates-user/header', $data);
     $this->load->view('booking/info-booking', $data);
-    $this->load->view('templates/templates-user/modal');
     $this->load->view('templates/templates-user/footer');
   }
 
