@@ -1,73 +1,61 @@
 <style>
-  body {
-    font-family: 'Verdana', sans-serif;
+  .anggota h3 {
+    font-weight: 600;
   }
 
   table {
+    width: 100%;
     border-collapse: collapse;
-    width: 80%;
-    margin: 0 auto;
   }
 
-  tr,
-  th,
-  td {
-    padding: 10px 5px;
+  table th {
+    text-align: left;
+  }
+
+  table th,
+  table td {
+    border-bottom: 1px solid #00000050;
+    font-size: 11pt;
+    padding: 10px;
   }
 </style>
 
 <body>
-  <table border="1">
-    <?php foreach ($useraktif as $u) : ?>
+  <div class="anggota">
+    <h3>Nama Anggota</h3>
+    <p><?= $useraktif['nama']; ?></p>
+  </div>
+
+  <p>Buku yang di booking : </p>
+  <table>
+    <thead>
       <tr>
-        <th>Nama Anggota : <?= $u->nama; ?></th>
+        <th>No.</th>
+        <th>Buku</th>
+        <th>Penulis</th>
+        <th>Penerbit</th>
+        <th>Tahun</th>
+        <th nowrap>Tanggal Booking</th>
+        <th nowrap>Batas Pengambilan</th>
       </tr>
-      <tr>
-        <th>Buku Yang dibooking:</th>
-      </tr>
-    <?php endforeach; ?>
-    <tr>
-      <td>
-        <table>
-          <tr>
-            <th>No.</th>
-            <th>Buku</th>
-            <th>Penulis</th>
-            <th>penerbit</th>
-            <th>Tahun</th>
-            <th>Tanggal Booking</th>
-            <th>Batas Pengambilan</th>
-          </tr>
+    </thead>
 
-          <?php $i = 1;
-          foreach ($items as $item) : ?>
-            <tr>
-              <td><?= $i++; ?></td>
-              <td>
-                <?= $item['judul_buku']; ?>
-              </td>
-              <td><?= $item['pengarang']; ?></td>
-              <td><?= $item['penerbit']; ?></td>
-              <td><?= $item['tahun_terbit']; ?></td>
-              <td><?= $item['tgl_booking']; ?></td>
-              <td><?= $item['batas_ambil']; ?></td>
-            </tr>
-
-          <?php endforeach; ?>
-        </table>
-      </td>
-    </tr>
-
-    <!-- <tr>
-    <td>
-      <hr>
-    </td>
-  </tr> -->
-
-    <tr>
-      <td align="center">
-        <?= md5(date('d M Y H:i:s')); ?>
-      </td>
-    </tr>
+    <tbody>
+      <?php $i = 1;
+      foreach ($items as $item) : ?>
+        <tr>
+          <td nowrap><?= $i++; ?></td>
+          <td nowrap><?= $item['judul_buku']; ?></td>
+          <td nowrap><?= $item['pengarang']; ?></td>
+          <td nowrap><?= $item['penerbit']; ?></td>
+          <td nowrap><?= $item['tahun_terbit']; ?></td>
+          <td><?= date("d M Y", strtotime($item['tgl_booking'])); ?></td>
+          <td><?= date("d M Y", strtotime($item['batas_ambil'])); ?></td>
+        </tr>
+      <?php endforeach; ?>
+    </tbody>
   </table>
+  <p style="text-align: center;">
+    <?= md5(date('d M Y H:i:s')); ?>
+  </p>
 </body>

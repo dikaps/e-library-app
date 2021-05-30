@@ -20,6 +20,11 @@ class Member extends CI_Controller
     ];
     $data['judul'] = 'Profil Saya';
 
+    $this->db->select('pinjam.*, detail_pinjam.id_buku, buku.judul_buku');
+    $this->db->join('detail_pinjam', 'detail_pinjam.no_pinjam = pinjam.no_pinjam');
+    $this->db->join('buku', 'buku.id = detail_pinjam.id_buku');
+    $data['riwayat'] = $this->db->get_where('pinjam', ['id_user' => $user['id']])->result_array();
+
     $this->load->view('templates/templates-user/header', $data);
     $this->load->view('member/index', $data);
     $this->load->view('templates/templates-user/footer', $data);

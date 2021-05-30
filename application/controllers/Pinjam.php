@@ -115,8 +115,8 @@ class Pinjam extends CI_Controller
     $this->ModelPinjam->simpanDetail($id_booking, $no_pinjam);
     $denda = $this->input->post('denda', true);
 
-    $this->ModelPinjam->deleteData('booking', ['id_booking' => $id_booking]);
     $this->ModelPinjam->deleteData('booking_detail', ['id_booking' => $id_booking]);
+    $this->ModelPinjam->deleteData('booking', ['id_booking' => $id_booking]);
     $denda = $this->input->post('denda', TRUE);
     $this->db->query("update detail_pinjam set denda='$denda'");
 

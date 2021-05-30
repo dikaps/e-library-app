@@ -10,9 +10,7 @@ class Booking extends CI_Controller
   }
   public function index()
   {
-    $id = ['bo.id_user' => $this->uri->segment(3)];
     $id_user = $this->session->userdata('id_user');
-    $data['booking'] = $this->ModelBooking->joinOrder($id)->result();
 
     $user = $this->ModelUser->cekData(['email' => $this->session->userdata('email')])->row_array();
     $data = [
@@ -24,7 +22,8 @@ class Booking extends CI_Controller
 
     $dtb = $this->ModelBooking->showtemp(['id_user' => $id_user])->num_rows();
     if ($dtb < 1) {
-      $this->session->set_flashdata('pesan', '<div class="alert pesan alert-danger" >Tidak Ada Buku dikeranjang</div>');
+      $this->session->set_flashdata('type', 'Gagal!');
+      $this->session->set_flashdata('pesan', 'Tidak Ada Buku dikeranjang');
       redirect(base_url());
     } else {
       $data['temp'] = $this->db->query("select image, judul_buku, penulis, penerbit, tahun_terbit,id_buku from temp where id_user='$id_user'")->result_array();
@@ -59,25 +58,51 @@ class Booking extends CI_Controller
 
     $databooking = $this->db->query("select * from booking where id_user='$userid'")->num_rows();
     if ($databooking > 0) {
-      $this->session->set_flashdata('pesan', '<div class="alert alert-danger pesan" >Masih Ada booking buku sebelumnya yang belum diambil.<br> Ambil Buku yang dibooking atau tunggu 1x24 Jam untuk bisa booking kembali </div>');
-      redirect(base_url());
+      $dataPesan = [
+        'type' => 'Gagal',
+        'pesan' => 'Masih Ada booking buku sebelumnya yang belum diambil.<br> Ambil Buku yang dibooking atau tunggu 1x24 Jam untuk bisa booking kembali'
+      ];
+      echo json_encode($dataPesan);
+      return false;
+      die;
     }
 
     if ($temp > 0) {
-      $this->session->set_flashdata('pesan', '<div class="alert alert-danger pesan" >Buku ini Sudah anda booking </div>');
-      redirect(base_url() . 'home');
+      $dataPesan = [
+        'type' => 'Gagal',
+        'pesan' => 'Buku ini Sudah anda booking'
+      ];
+      echo json_encode($dataPesan);
+      return false;
+      die;
     }
 
     if ($tempuser == 3) {
-      $this->session->set_flashdata('pesan', '<div class="alert alert-danger pesan" >Booking Buku Tidak Boleh Lebih dari 3</div>');
-      redirect(base_url() . 'home');
+      $dataPesan = [
+        'type' => 'Gagal',
+        'pesan' => 'Booking Buku Tidak Boleh Lebih dari 3'
+      ];
+      echo json_encode($dataPesan);
+      return false;
+      die;
     }
 
     $this->ModelBooking->createTemp();
     $this->ModelBooking->insertData('temp', $isi);
-    // $this->session->set_flashdata('pesan', '<div class="alert alert-primary pesan" >Buku berhasil ditambahkan ke keranjang </div>');
-    $this->session->set_flashdata('pesan', 'ditambahkan');
-    redirect(base_url() . 'home');
+    $dataPesan = [
+      'type' => 'Berhasil',
+      'pesan' => 'Buku berhasil ditambahkan ke keranjang'
+    ];
+    echo json_encode($dataPesan);
+  }
+
+  public function getJumlahBooking()
+  {
+    $result = $this->ModelBooking->getDataWhere('temp', ['email_user' => $this->session->userdata('email')])->num_rows();
+    $data = [
+      'hasil' => $result
+    ];
+    echo json_encode($data);
   }
 
   public function hapusbooking()
@@ -87,11 +112,59 @@ class Booking extends CI_Controller
 
     $this->ModelBooking->deleteData(['id_buku' => $id_buku], 'temp');
     $kosong = $this->db->query("select*from temp where id_user='$id_user'")->num_rows();
+
     if ($kosong < 1) {
+      $dataPesan = [
+        'type' => 'Warning',
+        'pesan' => 'Tidak ada buku dalam keranjang',
+        'hasil' => 'kosong'
+      ];
+      echo json_encode($dataPesan);
+    } else {
+      $dataPesan = [
+        'type' => 'Berhasil',
+        'pesan' => 'Buku berhasil dihapus',
+        'hasil' => 'ada'
+      ];
+      echo json_encode($dataPesan);
+    }
+  }
+
+  public function loadDataBooking()
+  {
+    $id_user = $this->session->userdata('id_user');
+    $output = "";
+
+    $dtb = $this->ModelBooking->showtemp(['id_user' => $id_user])->num_rows();
+
+    if ($dtb < 1) {
       $this->session->set_flashdata('pesan', '<div class="alert pesan alert-danger" >Tidak Ada Buku dikeranjang</div>');
       redirect(base_url());
     } else {
-      redirect(base_url() . 'booking');
+      $temp = $this->db->query("select image, judul_buku, penulis, penerbit, tahun_terbit,id_buku from temp where id_user='$id_user'")->result_array();
+
+      foreach ($temp as $t) {
+        $output .= '
+          <tr>
+            <td class="p-2"><?= $i++; ?></td>
+            <td class="w-28 p-2">
+              <img src="' . base_url('assets/img/upload/' . $t['image']) . '" alt="" class="shadow-lg" />
+            </td>
+            <td class="p-2">' . $t['penulis'] . '</td>
+            <td class="p-2">' . $t['penerbit'] . '</td>
+            <td class="p-2">' . substr($t['tahun_terbit'], 0, 4) . '</td>
+            <td class="p-2">
+              <a href="' . base_url('booking/hapusbooking/' . $t['id_buku']) . '" class="px-4 py-2 grid place-content-center rounded bg-red-600 hover:bg-red-700 transition-colors btnKonfirmasi">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </a>
+            </td>
+          </tr>
+        ';
+      }
+      echo $output;
     }
   }
 
@@ -122,7 +195,8 @@ class Booking extends CI_Controller
     $data['items'] = $this->db->query("select * from booking bo, booking_detail d, buku bu where d.id_booking = bo.id_booking and d.id_buku=bu.id and bo.id_user='$where'")->result_array();
 
     if (count($data['items']) < 1) {
-      $this->session->set_flashdata('pesan', '<div class="alert pesan alert-danger" >Tidak Ada Buku yang anda pesan!</div>');
+      $this->session->set_flashdata('type', 'Gagal!');
+      $this->session->set_flashdata('pesan', 'Tidak Ada Buku yang anda pesan!');
       redirect(base_url());
     }
 
@@ -136,7 +210,7 @@ class Booking extends CI_Controller
     $id_user = $this->session->userdata('id_user');
     $data['user'] = $this->session->userdata('nama');
     $data['judul'] = "Cetak Bukti Booking";
-    $data['useraktif'] = $this->ModelUser->cekData(['id' => $this->session->userdata('id_user')])->result();
+    $data['useraktif'] = $this->ModelUser->cekData(['id' => $this->session->userdata('id_user')])->row_array();
     $query = "SELECT * 
               FROM booking bo, 
                    booking_detail d, 
@@ -156,5 +230,30 @@ class Booking extends CI_Controller
     $this->load->library('pdf');
     $nama = $data['user'];
     $this->pdf->generate($html, "bukti-booking-$nama", $paper_size, $orientation);
+  }
+
+  public function riwayatPinjam()
+  {
+    $id_buku = $this->uri->segment(3);
+
+
+    $user = $this->ModelUser->cekData(['email' => $this->session->userdata('email')])->row_array();
+
+    $data = [
+      'image' => $user['image'],
+      'user' => $user['nama'],
+      'email' => $user['email'],
+      'tanggal_input' => $user['tanggal_input'],
+    ];
+    $data['judul'] = 'Riwayat Pinjam';
+
+    $this->db->select('pinjam.*, detail_pinjam.id_buku, buku.*');
+    $this->db->join('detail_pinjam', 'detail_pinjam.no_pinjam = pinjam.no_pinjam');
+    $this->db->join('buku', 'buku.id = detail_pinjam.id_buku');
+    $data['rp'] = $this->db->get_where('pinjam', ['detail_pinjam.id_buku' => $id_buku])->row_array();
+
+    $this->load->view('templates/templates-user/header', $data);
+    $this->load->view('booking/riwayat-pinjam', $data);
+    $this->load->view('templates/templates-user/footer');
   }
 }

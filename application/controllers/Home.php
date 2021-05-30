@@ -20,6 +20,10 @@ class Home extends CI_Controller
 
     $this->db->limit($count);
     $data['buku'] = $this->ModelBuku->getBuku()->result_array();
+    $dataObj = [
+      'type' => 'berhasil',
+      'pesan' => 'Buku berhasil ditambahkan ke keranjang'
+    ];
 
     $this->db->join('kategori', 'kategori.id = buku.id_kategori');
     $data['upstok'] = $this->ModelBuku->getBuku()->row_array();
@@ -86,7 +90,7 @@ class Home extends CI_Controller
     foreach ($buku as $b) {
       if ($b['stok'] < 1) {
         $btnBooking = '
-          <a href="#" class="btn-buku booking">
+          <a href="#" class="btn-buku alert-danger">
             <svg class="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
               <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -98,7 +102,7 @@ class Home extends CI_Controller
         ';
       } else {
         $btnBooking = '
-          <a href="' . base_url('booking/tambahBooking/' . $b['id']) . '" class="btn-buku booking">
+          <a href="' . base_url('booking/tambahBooking/' . $b['id']) . '" class="btn-buku booking konfirmasiBooking">
             <svg class="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
               <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -116,8 +120,8 @@ class Home extends CI_Controller
         <!-- box 1 -->
         <div class="flex items-center sm:flex-row flex-col">
           <!-- image card -->
-          <div class="bg-gray-300 w-28 h-28 rounded-lg overflow-hidden sm:mr-5 mr-0">
-            <a href="#">
+          <div class="w-28 h-28 rounded-lg overflow-hidden sm:mr-5 mr-0">
+            <a href="' . base_url('home/detailBuku/' . $b['id']) . '">
               <img src="' . base_url('assets/img/upload/' . $b['image']) . '" alt="Image - ' . $b['judul_buku'] . '" />
             </a>
           </div>

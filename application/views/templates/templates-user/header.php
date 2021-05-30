@@ -18,7 +18,7 @@ $booking = $this->ModelBooking->getDataWhere('booking', ['id_user' => $this->ses
   <nav class="w-4/5 mx-auto flex justify-between py-10 text-secondary-100">
     <a href="<?= base_url(); ?>" class="font-semibold sm:text-xl text-lg">E-Library</a>
     <div class="flex relative items-center">
-      <span class="text-xs sm:text-lg"><?= $user; ?></span>
+      <span class="text-xs sm:text-lg username"><?= $user; ?></span>
 
       <button class="cursor-pointer sm:ml-5 ml-1" id="nav">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1B1C1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
@@ -44,10 +44,10 @@ $booking = $this->ModelBooking->getDataWhere('booking', ['id_user' => $this->ses
                 <line x1="3" y1="6" x2="21" y2="6"></line>
                 <path d="M16 10a4 4 0 0 1-8 0"></path>
               </svg>
-              Booking &nbsp;<strong><?= $this->ModelBooking->getDataWhere('temp', ['email_user' => $this->session->userdata('email')])->num_rows(); ?></strong>&nbsp; Buku
+              Booking &nbsp;<strong id="jmlBooking"><?= $this->ModelBooking->getDataWhere('temp', ['email_user' => $this->session->userdata('email')])->num_rows(); ?></strong>&nbsp; Buku
             </a>
 
-            <a href="./src/pages/auth/daftar.html" class="py-3 px-6 flex text-sm hover:bg-secondary-200 <?= ($booking > 0) ?: 'hidden'; ?>">
+            <a href="<?= base_url('booking/info'); ?>" class="py-3 px-6 flex text-sm hover:bg-secondary-200 <?= ($booking > 0) ?: 'hidden'; ?>">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B1C1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
                 <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line>
                 <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>

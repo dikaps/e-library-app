@@ -37,46 +37,33 @@
     </div>
 
     <div class="sm:mt-20">
-      <h1 class="font-semibold text-lg">Riwayat Peminjaman</h1>
+      <h1 class="font-semibold text-lg">Riwayat Peminjaman Buku</h1>
 
       <div class="w-full grid sm:grid-cols-2 grid-cols-1 gap-5 mt-5">
-        <div class="card-buku">
-          <p class="judul sm:mb-0 mb-3" title="Mudah Membuat dan Berbisnis Aplikasi Android dengan Android Studio">Mudah Membuat dan Berbisnis Aplikasi Android dengan Android Studio</p>
+        <?php if (count($riwayat) < 1) : ?>
+          <div class="card-buku">
+            <p class="sm:mb-0 mb-3">
+              Belum ada riwayat peminjaman Buku
+            </p>
+          </div>
+        <?php else : ?>
+          <?php foreach ($riwayat as $r) : ?>
+            <div class="card-buku">
+              <p class="judul sm:mb-0 mb-3" title="<?= $r['judul_buku']; ?>">
+                <?= $r['judul_buku']; ?>
+              </p>
 
-          <a href="#" class="btn-buku detail">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-            Detail
-          </a>
-        </div>
-        <div class="card-buku">
-          <p class="judul sm:mb-0 mb-3" title="Mudah Membuat dan Berbisnis Aplikasi Android dengan Android Studio">Mudah Membuat dan Berbisnis Aplikasi Android dengan Android Studio</p>
-
-          <a href="../pinjam/riwayat-pinjam.html" class="btn-buku detail">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-            Detail
-          </a>
-        </div>
-
-        <div class="card-buku">
-          <p class="judul sm:mb-0 mb-3" title="Mudah Membuat dan Berbisnis Aplikasi Android dengan Android Studio">Mudah Membuat dan Berbisnis Aplikasi Android dengan Android Studio</p>
-
-          <a href="#" class="btn-buku detail">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-            Detail
-          </a>
-        </div>
+              <a href="<?= base_url('booking/riwayatPinjam/' . $r['id_buku']); ?>" class="btn-buku detail">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                Detail
+              </a>
+            </div>
+          <?php endforeach; ?>
+        <?php endif; ?>
       </div>
     </div>
   </div>

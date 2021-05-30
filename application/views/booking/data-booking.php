@@ -20,33 +20,14 @@
           <th class="p-2">Aksi</th>
         </tr>
       </thead>
-      <tbody>
-        <?php $i = 1;
-        foreach ($temp as $t) : ?>
-          <tr>
-            <td class="p-2"><?= $i++; ?></td>
-            <td class="w-28 p-2">
-              <img src="<?= base_url('assets/img/upload/' . $t['image']); ?>" alt="" class="shadow-lg" />
-            </td>
-            <td class="p-2"><?= $t['penulis']; ?></td>
-            <td class="p-2"><?= $t['penerbit']; ?></td>
-            <td class="p-2"><?= substr($t['tahun_terbit'], 0, 4); ?></td>
-            <td class="p-2">
-              <a href="<?= base_url('booking/hapusbooking/' . $t['id_buku']); ?>" class="px-4 py-2 grid place-content-center rounded bg-red-600 hover:bg-red-700 transition-colors btnKonfirmasi">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="3 6 5 6 21 6"></polyline>
-                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                </svg>
-              </a>
-            </td>
-          </tr>
-        <?php endforeach; ?>
+      <tbody id="loadDataBooking">
+
       </tbody>
     </table>
   </div>
 
   <div class="mt-10 flex sm:flex-row flex-col">
-    <a href="../../../index.html" class="px-6 py-2 booking flex justify-center items-center rounded text-white sm:mr-5 sm:mb-0 mb-3">
+    <a href="<?= base_url() . 'home'; ?>" class="px-6 py-2 booking flex justify-center items-center rounded text-white sm:mr-5 sm:mb-0 mb-3">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
         <circle cx="12" cy="12" r="10"></circle>
         <polygon points="10 8 16 12 10 16 10 8"></polygon>
@@ -54,7 +35,7 @@
       Lanjutkan Booking
     </a>
 
-    <a href="<?= base_url() . 'booking/bookingSelesai/' . $this->session->userdata('id_user'); ?>" class="px-6 py-2 detail flex justify-center items-center rounded text-white btnKonfirmasi">
+    <a href="<?= base_url() . 'booking/bookingSelesai/' . $this->session->userdata('id_user'); ?>" class="px-6 py-2 detail flex justify-center items-center rounded text-white konfirmasiSelesai">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
         <circle cx="12" cy="12" r="10"></circle>
         <rect x="9" y="9" width="6" height="6"></rect>
