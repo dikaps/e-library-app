@@ -66,5 +66,36 @@
         <?php endif; ?>
       </div>
     </div>
+
+    <div class="sm:mt-20">
+      <h1 class="font-semibold text-lg">Wishlist anda</h1>
+
+      <div class="w-full grid sm:grid-cols-2 grid-cols-1 gap-5 mt-5">
+        <?php if (count($wishlist) < 1) : ?>
+          <div class="card-buku">
+            <p class="sm:mb-0 mb-3">
+              Belum ada buku yang anda simpan
+            </p>
+          </div>
+        <?php else : ?>
+          <?php foreach ($wishlist as $w) : ?>
+            <div class="card-buku">
+              <p class="judul sm:mb-0 mb-3" title="<?= $w['judul_buku']; ?>">
+                <?= $w['judul_buku']; ?>
+              </p>
+
+              <a href="<?= base_url('home/detailBuku/' . $w['id_buku']); ?>" class="btn-buku detail">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                Detail
+              </a>
+            </div>
+          <?php endforeach; ?>
+        <?php endif; ?>
+      </div>
+    </div>
   </div>
 </section>

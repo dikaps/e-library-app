@@ -14,12 +14,6 @@ $(document).ready(function () {
 		$("#dropdown").toggleClass("hidden");
 	});
 
-	$("#wishlist").click(function (e) {
-		e.preventDefault();
-		$(this).toggleClass("bg-gray-400");
-		$(this).toggleClass("bg-red-600");
-	});
-
 	let judul = document.querySelectorAll(".judul");
 	let cutText;
 	for (let i = 0; i < judul.length; i++) {
@@ -27,16 +21,15 @@ $(document).ready(function () {
 			cutText = judul[i].innerHTML.slice(0, 30) + "....";
 			judul[i].innerHTML = cutText;
 		}
-		console.log(cutText);
 	}
 
 	let count = 3;
 	loadBuku(count);
-	function loadBuku(count) {
+	function loadBuku(count, keyword) {
 		$.ajax({
 			type: "POST",
 			url: "http://localhost/e-library/home/loadBuku",
-			data: { counting: count },
+			data: { counting: count, keyword: keyword },
 			success: function (response) {
 				$("#buku").html(response);
 			},
@@ -189,5 +182,68 @@ $(document).ready(function () {
 				}, 3000);
 			}
 		});
+	});
+
+	$(document).on("click", "#wishlist", function (e) {
+		e.preventDefault();
+		const id = $(this).data("id");
+
+		$.ajax({
+			type: "POST",
+			url: baseUrl + "wishlist",
+			data: {
+				id: id,
+			},
+			dataType: "json",
+			success: function (res) {
+				console.log(res);
+				if (res.status == 1) {
+					cekWishlist();
+				} else {
+					Swal.fire({
+						title: "Warning!",
+						text: "Anda diharuskan login terlebih dahulu",
+						icon: "warning",
+					});
+					setTimeout(() => {
+						document.location.href = baseUrl + "autentifikasi";
+					}, 1700);
+				}
+			},
+		});
+	});
+
+	cekWishlist();
+	function cekWishlist() {
+		const id = $("#wishlist").data("id");
+		$.ajax({
+			type: "POST",
+			url: baseUrl + "wishlist/cek",
+			data: { id: id },
+			dataType: "json",
+			success: function (res) {
+				if (res.status == 0) {
+					$("#wishlist").addClass("bg-gray-400");
+					$("#wishlist").removeClass("bg-red-600");
+					$("#wishlist #text").text("Wishlist");
+				} else {
+					$("#wishlist").removeClass("bg-gray-400");
+					$("#wishlist").addClass("bg-red-600");
+					$("#wishlist #text").text("Hapus Wishlist");
+				}
+			},
+		});
+	}
+
+	$("input[name=keyword]").keyup(function (e) {
+		console.log($(this).val());
+		const keyword = $(this).val();
+		if (keyword != 0) {
+			loadBuku(50, keyword);
+			$("#load").addClass("hidden");
+		} else {
+			loadBuku();
+			$("#load").removeClass("hidden");
+		}
 	});
 });

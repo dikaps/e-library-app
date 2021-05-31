@@ -25,6 +25,11 @@ class Member extends CI_Controller
     $this->db->join('buku', 'buku.id = detail_pinjam.id_buku');
     $data['riwayat'] = $this->db->get_where('pinjam', ['id_user' => $user['id']])->result_array();
 
+    $this->db->join('buku', 'buku.id = wishlist.id_buku');
+    $this->db->order_by('date_created', 'DESC');
+    $data['wishlist'] = $this->db->get_where('wishlist', ['id_user' => $user['id']])->result_array();
+
+
     $this->load->view('templates/templates-user/header', $data);
     $this->load->view('member/index', $data);
     $this->load->view('templates/templates-user/footer', $data);
@@ -108,7 +113,9 @@ class Member extends CI_Controller
   {
     $this->session->unset_userdata('email');
     $this->session->unset_userdata('role_id');
-    $this->session->set_flashdata('pesan', '<div class="alert alert-primary pesan mt-3" >Anda telah logout!!</div>');
+    $this->session->unset_userdata('id_user');
+    $this->session->set_flashdata('type', 'Berhasil');
+    $this->session->set_flashdata('pesan', 'Anda telah logout!!');
     redirect('home');
   }
 }

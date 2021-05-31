@@ -20,7 +20,7 @@
         Booking Ulang
       </a>
 
-      <a href="" class="btn-buku bg-gray-400 mt-3 text-center" id="wishlist">
+      <a href="#" class="btn-buku mt-3 text-center" id="wishlist" data-id="<?= $id; ?>">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
           <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
         </svg>

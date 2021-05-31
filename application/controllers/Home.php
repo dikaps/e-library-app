@@ -20,13 +20,11 @@ class Home extends CI_Controller
 
     $this->db->limit($count);
     $data['buku'] = $this->ModelBuku->getBuku()->result_array();
-    $dataObj = [
-      'type' => 'berhasil',
-      'pesan' => 'Buku berhasil ditambahkan ke keranjang'
-    ];
 
     $this->db->join('kategori', 'kategori.id = buku.id_kategori');
-    $data['upstok'] = $this->ModelBuku->getBuku()->row_array();
+    $this->db->order_by('stok', 'DESC');
+    $data['upstok'] = $this->db->get('buku')->row_array();
+
     if ($this->session->userdata('email')) {
       $user = $this->ModelUser->cekData(['email' => $this->session->userdata('email')])->row_array();
 
@@ -72,6 +70,7 @@ class Home extends CI_Controller
       $data['halaman'] = $fields->jml_halaman;
     }
 
+
     $this->load->view('templates/templates-user/header', $data);
     $this->load->view('buku/detail-buku', $data);
     $this->load->view('templates/templates-user/footer');
@@ -80,12 +79,25 @@ class Home extends CI_Controller
   public function loadBuku()
   {
     $count = $this->input->post('counting');
+    $keyword = $this->input->post('keyword', true);
     $output = "";
-    if (!$count) {
-      $count = 3;
+
+    if ($count) {
+      $this->db->limit($count);
+    } else {
+      $this->db->limit(3);
     }
 
-    $this->db->limit($count);
+    if ($keyword) {
+      $this->db->like('judul_buku', $keyword);
+      $this->db->or_like('pengarang', $keyword);
+      $this->db->or_like('penerbit', $keyword);
+      $this->db->or_like('kategori', $keyword);
+    } else {
+      $keyword = "";
+    }
+    $this->db->select('buku.*, kategori.kategori');
+    $this->db->join('kategori', 'kategori.id = buku.id_kategori');
     $buku = $this->db->get('buku')->result_array();
     foreach ($buku as $b) {
       if ($b['stok'] < 1) {
