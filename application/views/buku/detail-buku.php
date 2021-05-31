@@ -11,15 +11,27 @@
     </div>
 
     <div class="sm:w-1/3 order-3">
-      <a href="<?= base_url('booking/tambahBooking/' . $id); ?>" class="btn-buku booking konfirmasiBooking">
-        <svg class="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <path d="M16 10a4 4 0 0 1-8 0"></path>
-        </svg>
+      <?php if ($stok < 1) : ?>
+        <a href="#" class="btn-buku alert-danger">
+          <svg class="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
 
-        Booking
-      </a>
+          Kosong
+        </a>
+      <?php else : ?>
+        <a href="<?= base_url('booking/tambahBooking/' . $id); ?>" class="btn-buku booking konfirmasiBooking">
+          <svg class="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+
+          Booking
+        </a>
+      <?php endif; ?>
 
       <a href="#" class="btn-buku mt-3 text-center" id="wishlist" data-id="<?= $id; ?>">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
