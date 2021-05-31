@@ -236,7 +236,6 @@ $(document).ready(function () {
 	}
 
 	$("input[name=keyword]").keyup(function (e) {
-		console.log($(this).val());
 		const keyword = $(this).val();
 		if (keyword != 0) {
 			loadBuku(50, keyword);
