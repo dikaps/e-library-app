@@ -6,8 +6,6 @@ let loadFile = (event) => {
 	};
 };
 
-const baseUrl = "http://localhost/e-library/";
-
 $(document).ready(function () {
 	$("#nav").click(function (e) {
 		e.preventDefault();
@@ -28,7 +26,7 @@ $(document).ready(function () {
 	function loadBuku(count, keyword) {
 		$.ajax({
 			type: "POST",
-			url: "http://localhost/e-library/home/loadBuku",
+			url: baseUrl + "home/loadBuku",
 			data: { counting: count, keyword: keyword },
 			success: function (response) {
 				$("#buku").html(response);

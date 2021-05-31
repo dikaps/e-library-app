@@ -45,7 +45,7 @@
                     <td><?= date('d M Y', strtotime($p['tgl_kembali'])); ?></td>
 
                     <td>
-                      <?= ($p['tgl_pengembalian'] == '0000-00-00') ? "Buku Masih dipinjam" : $p['tgl_pengembalian']; ?>
+                      <?= ($p['tgl_pengembalian'] == '0000-00-00') ? "Buku Masih dipinjam" : date("d M Y", strtotime($p['tgl_pengembalian'])); ?>
                     </td>
                     <td>
                       <?php

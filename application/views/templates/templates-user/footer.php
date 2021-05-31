@@ -8,7 +8,10 @@
 </footer>
 <script src="<?= base_url('assets/'); ?>js/jquery-3.5.1.min.js"></script>
 <script src="<?= base_url('assets/user/sweetalert2/'); ?>sweetalert2.all.min.js"></script>
-<script src="<?= base_url('assets/user/'); ?>js/app.js"></script>
+<script>
+  const baseUrl = "<?php echo base_url(); ?>";
+</script>
+<script src="<?= base_url('assets/user/'); ?>js/app.js" type="text/javascript"></script>
 </body>
 
 </html>
