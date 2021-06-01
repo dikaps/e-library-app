@@ -363,6 +363,7 @@ class Autentifikasi extends CI_Controller
   {
     $this->session->unset_userdata('email');
     $this->session->unset_userdata('role_id');
+    $this->session->unset_userdata('id_user');
 
     $this->session->set_flashdata('pesan', '<div class="alert alert-primary pesan">Anda telah logout!!</div>');
     redirect('autentifikasi');
