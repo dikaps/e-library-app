@@ -111,23 +111,27 @@ class Pinjam extends CI_Controller
       'total_denda'      => 0
     ];
 
+    $bd = $this->db->get_where('booking_detail', ['id_booking' => $id_booking])->result_array();
+
+    foreach ($bd as $b) {
+      $queryUpdate = 'UPDATE buku
+                      SET dipinjam = dipinjam + 1,
+                          dibooking = dibooking - 1
+                      WHERE id = ' . $b["id_buku"] . '
+      ';
+      $this->db->query($queryUpdate);
+    }
+
     $this->ModelPinjam->simpanPinjam($dataBooking);
     $this->ModelPinjam->simpanDetail($id_booking, $no_pinjam);
     $denda = $this->input->post('denda', true);
 
     $this->ModelPinjam->deleteData('booking_detail', ['id_booking' => $id_booking]);
     $this->ModelPinjam->deleteData('booking', ['id_booking' => $id_booking]);
+
     $denda = $this->input->post('denda', TRUE);
     $this->db->query("update detail_pinjam set denda='$denda'");
 
-
-    $queryUpdate = "UPDATE buku,
-                           detail_pinjam
-                    SET buku.dipinjam = buku.dipinjam + 1,
-                        buku.dibooking = buku.dibooking - 1
-                    WHERE buku.id = detail_pinjam.id_buku
-    ";
-    $this->db->query($queryUpdate);
 
     $this->session->set_flashdata('pesan', 'Konfirmasi peminjaman berhasil dilakukan!');
     $this->session->set_flashdata('rules', 'berhasil');

@@ -77,9 +77,9 @@ CREATE TABLE `buku` (
 INSERT INTO `buku` (`id`, `judul_buku`, `id_kategori`, `pengarang`, `penerbit`, `tahun_terbit`, `isbn`, `stok`, `dipinjam`, `dibooking`, `image`, `jml_halaman`) VALUES
 (24, 'Ensiklopedia Teknologi Komputer', 22, 'Madcoms', 'ANDI OFFSET', 2019, '9786230101533', -1, 1, 0, 'img1622196910.png', 280),
 (25, 'Fs Mudah Membuat dan Berbisnis Aplikasi Android dengan Android Studio', 22, 'Yudha Yudhanto & Ardhi Wijayanto', 'Elex Media Komputindo', 2021, '9786020455051', 6, 0, 0, 'img1622209714.png', 192),
-(26, 'Logika Pemrograman Java', 22, 'Abdul Kadir', 'Elex media Komputindo', 2020, '9786230019500', 3, 1, -1, 'img1622209768.png', 568),
-(27, 'Dasar Logika Pemrograman Komputer', 22, 'Abdul Kadir', 'Elex Media Komputindo', 2018, '9786020451664', 5, 1, -1, 'img1622209844.png', 348),
-(28, '7 in 1 Pemrograman Web Tingkat Lanjut', 22, 'Rohi Abdulloh', 'Elex Media Komputindo', 2018, '9786020486628', 5, 1, -1, 'img1622210866.png', 336),
+(26, 'Logika Pemrograman Java', 22, 'Abdul Kadir', 'Elex media Komputindo', 2020, '9786230019500', 3, 1, 0, 'img1622209768.png', 568),
+(27, 'Dasar Logika Pemrograman Komputer', 22, 'Abdul Kadir', 'Elex Media Komputindo', 2018, '9786020451664', 5, 1, 0, 'img1622209844.png', 348),
+(28, '7 in 1 Pemrograman Web Tingkat Lanjut', 22, 'Rohi Abdulloh', 'Elex Media Komputindo', 2018, '9786020486628', 5, 1, 0, 'img1622210866.png', 336),
 (31, 'Koleksi Program Web Php', 22, 'Yuniar Supardi & Irwan Kurniawan, S.Kom.', 'Elex Media komputindo', 2020, '9786230014994', 12, 0, 0, 'img1622425840.png', 396),
 (32, 'Komputer & Masyarakat', 22, 'Putu Agus Eka Pratama', 'Informatika', 2021, '9786237131403', 8, 0, 0, 'img1622425974.png', 408),
 (33, '101+ Pengetahuan Bikin Kamu Mahir IT', 22, 'Feri Sulianta', 'Elex Media Komputindo', 2018, '9786020483955', 3, 0, 0, 'img1622426031.png', 280),
