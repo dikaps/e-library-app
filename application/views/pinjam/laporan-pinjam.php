@@ -59,7 +59,7 @@
                       <?php endif; ?>
                     </td>
                     <td><?= $l['total_denda']; ?></td>
-                    <td><?= $l['status']; ?></td>
+                    <td><?= $l['status_pinjam']; ?></td>
                   </tr>
                 <?php endforeach; ?>
               </tbody>

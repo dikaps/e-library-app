@@ -183,7 +183,6 @@ $(document).ready(function () {
 	});
 
 	$(document).on("click", ".btnStatus", function () {
-		// <?= base_url('pinjam/ubahStatus/' . $p['id_buku'] . '/' . $p['no_pinjam']); ?>
 		const idBuku = $(this).data("idbuku");
 		const noPinjam = $(this).data("nopinjam");
 

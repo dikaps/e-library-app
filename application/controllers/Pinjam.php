@@ -147,25 +147,23 @@ class Pinjam extends CI_Controller
     $tgl = date('Y-m-d');
     $status = 'Kembali';
 
-    // update status pengembalian
-    $query = "UPDATE  pinjam,
-                      detail_pinjam
-              SET pinjam.status = '$status',
-                  pinjam.tgl_pengembalian = '$tgl',
-                  pinjam.total_denda = '$total_denda'
-              WHERE detail_pinjam.id_buku = '$id_buku'
-                    AND pinjam.no_pinjam = '$no_pinjam'
-    ";
-    $this->db->query($query);
+    $set = [
+      'status_pinjam' => "Kembali"
+    ];
+
+    try {
+      $res = $this->db->update('detail_pinjam', $set, ['id_buku' => $id_buku]);
+      $query = "UPDATE buku
+                SET dipinjam = dipinjam - 1,
+                    stok = stok + 1
+                WHERE id = $id_buku
+      ";
+      $this->db->query($query);
+    } catch (\Throwable $th) {
+      echo $th->getMessage();
+    }
 
     // update status stok
-    $query = "UPDATE buku, 
-                     detail_pinjam
-              SET buku.dipinjam = buku.dipinjam - 1,
-                  buku.stok = buku.stok + 1
-              WHERE buku.id = detail_pinjam.id_buku
-    ";
-    $this->db->query($query);
     $this->session->set_flashdata('pesan', 'Konfirmasi Ubah Status berhasil!');
     $this->session->set_flashdata('rules', 'berhasil');
     redirect(base_url('pinjam'));

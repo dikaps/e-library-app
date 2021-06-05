@@ -26,6 +26,8 @@ USE `e_library`;
 
 -- --------------------------------------------------------
 
+-- --------------------------------------------------------
+
 --
 -- Struktur dari tabel `booking`
 --
@@ -75,12 +77,12 @@ CREATE TABLE `buku` (
 --
 
 INSERT INTO `buku` (`id`, `judul_buku`, `id_kategori`, `pengarang`, `penerbit`, `tahun_terbit`, `isbn`, `stok`, `dipinjam`, `dibooking`, `image`, `jml_halaman`) VALUES
-(24, 'Ensiklopedia Teknologi Komputer', 22, 'Madcoms', 'ANDI OFFSET', 2019, '9786230101533', -1, 1, 0, 'img1622196910.png', 280),
-(25, 'Fs Mudah Membuat dan Berbisnis Aplikasi Android dengan Android Studio', 22, 'Yudha Yudhanto & Ardhi Wijayanto', 'Elex Media Komputindo', 2021, '9786020455051', 6, 0, 0, 'img1622209714.png', 192),
-(26, 'Logika Pemrograman Java', 22, 'Abdul Kadir', 'Elex media Komputindo', 2020, '9786230019500', 3, 1, 0, 'img1622209768.png', 568),
-(27, 'Dasar Logika Pemrograman Komputer', 22, 'Abdul Kadir', 'Elex Media Komputindo', 2018, '9786020451664', 5, 1, 0, 'img1622209844.png', 348),
-(28, '7 in 1 Pemrograman Web Tingkat Lanjut', 22, 'Rohi Abdulloh', 'Elex Media Komputindo', 2018, '9786020486628', 5, 1, 0, 'img1622210866.png', 336),
-(31, 'Koleksi Program Web Php', 22, 'Yuniar Supardi & Irwan Kurniawan, S.Kom.', 'Elex Media komputindo', 2020, '9786230014994', 12, 0, 0, 'img1622425840.png', 396),
+(24, 'Ensiklopedia Teknologi Komputer', 22, 'Madcoms', 'ANDI OFFSET', 2019, '9786230101533', 8, 0, 0, 'img1622196910.png', 280),
+(25, 'Fs Mudah Membuat dan Berbisnis Aplikasi Android dengan Android Studio', 22, 'Yudha Yudhanto & Ardhi Wijayanto', 'Elex Media Komputindo', 2021, '9786020455051', 11, 0, 0, 'img1622209714.png', 192),
+(26, 'Logika Pemrograman Java', 22, 'Abdul Kadir', 'Elex media Komputindo', 2020, '9786230019500', 7, 0, 0, 'img1622209768.png', 568),
+(27, 'Dasar Logika Pemrograman Komputer', 22, 'Abdul Kadir', 'Elex Media Komputindo', 2018, '9786020451664', 4, 0, 0, 'img1622209844.png', 348),
+(28, '7 in 1 Pemrograman Web Tingkat Lanjut', 22, 'Rohi Abdulloh', 'Elex Media Komputindo', 2018, '9786020486628', 6, 0, 0, 'img1622210866.png', 336),
+(31, 'Koleksi Program Web Php', 22, 'Yuniar Supardi & Irwan Kurniawan, S.Kom.', 'Elex Media komputindo', 2020, '9786230014994', 11, 0, 0, 'img1622425840.png', 396),
 (32, 'Komputer & Masyarakat', 22, 'Putu Agus Eka Pratama', 'Informatika', 2021, '9786237131403', 8, 0, 0, 'img1622425974.png', 408),
 (33, '101+ Pengetahuan Bikin Kamu Mahir IT', 22, 'Feri Sulianta', 'Elex Media Komputindo', 2018, '9786020483955', 3, 0, 0, 'img1622426031.png', 280),
 (34, 'Teknik Penulisan Tugas Akhir dan Skripsi Pemrograman', 22, 'Uus Rusmawan', 'Elex Media Komputindo', 2019, '9786020496801', 4, 0, 0, 'img1622426079.png', 212),
@@ -105,18 +107,18 @@ INSERT INTO `buku` (`id`, `judul_buku`, `id_kategori`, `pengarang`, `penerbit`, 
 (53, 'Standard Operating Procedure, Cara Praktis Dan Efektif Menerapkan SOP di Segala Macam Bisnis', 24, 'Fajar Nur’aini D.F.', 'Quadrant', 2020, '9786232443013', 5, 0, 0, 'img1622430587.jpg', 164),
 (54, 'Kebijakan Ekonomi Regulasi, Institusi, dan Konstitusi', 24, 'Ahmad Erani Yustika | Rukavina Baksh', 'Intrans Publishing', 2021, '9786236709108', 2, 0, 0, 'img1622430697.jpg', 278),
 (55, 'Penguatan Konektivitas Lintas Batas Dalam Kerja Sama Ekonomi Subregional', 24, 'Indriana Kartini | Rosita Dewi | Agus R. Rahman', 'Yayasan Pustaka Obor Indonesia', 2021, '9786233210089', 6, 0, 0, 'img1622430736.jpg', 230),
-(56, 'Sejarah Hukum Agaria', 25, 'Prof.Dr. Drs.Abintoro, S.H., M.S,', 'Setara Press', 2021, '9786026344977', 10, 0, 0, 'img1622430829.jpg', 358),
+(56, 'Sejarah Hukum Agaria', 25, 'Prof.Dr. Drs.Abintoro, S.H., M.S,', 'Setara Press', 2021, '9786026344977', 12, 0, 0, 'img1622430829.jpg', 358),
 (57, 'Hukum Acara Perdata Indonesia', 25, 'Prof.Dr.Sudikno Mertokusumo, S.H.', 'CV Maha Karya Pustaka', 2021, '9786239006563', 9, 0, 0, 'img1622430873.jpg', 390),
 (58, 'Hukum Dan Masyarakat', 25, 'PROF. DR. SUTEKI, SH., M. HUM', 'Thafa Media', 2021, '9786025589454', 8, 0, 0, 'img1622430914.jpg', 450),
-(59, 'Hukum Pidana Positif Penghinaan', 25, 'Adami Chazawi', 'Media Nusa Creative', 2021, '9786020839417', 7, 0, 0, 'img1622430967.jpg', 300),
-(60, 'Pemberantasan Korupsi', 25, 'Dr. H. Abdul Muis Bj', 'Pustaka Reka Cipta', 2021, '9786021311578', 6, 0, 0, 'img1622431012.jpg', 304),
+(59, 'Hukum Pidana Positif Penghinaan', 25, 'Adami Chazawi', 'Media Nusa Creative', 2021, '9786020839417', 9, 0, 0, 'img1622430967.jpg', 300),
+(60, 'Pemberantasan Korupsi', 25, 'Dr. H. Abdul Muis Bj', 'Pustaka Reka Cipta', 2021, '9786021311578', 8, 0, 0, 'img1622431012.jpg', 304),
 (61, 'Hukum Waris Adat', 25, 'Prof. Dr.Rosnidar Sembiring, S.H., M.hum.', 'PT.Rajagrafindo Persada', 2021, '9786232317949', 5, 0, 0, 'img1622431057.jpg', 256),
 (62, 'Penghantar Hukum Indonesia', 25, 'Prof.Dr. Teguh Prasetyo, S.H., M,Si.', 'PT.Rajagrafindo Persada', 2021, '9786232315600', 4, 0, 0, 'img1622431115.jpg', 348),
 (63, 'Hukum Komunikasi Massa', 25, 'Ahmad Riyadh', 'Indomedia Pustaka', 2021, '9786026417930', 3, 0, 0, 'img1622431157.jpg', 88),
 (64, 'Aspek Hukum Perlindungan Anak', 25, 'Dr.Dani Ramdani, S.H.I., M.H', 'Prenadamedia Group', 2021, '9786232185593', 2, 0, 0, 'img1622431227.jpg', 218),
 (65, 'Hukum KeNotariatan', 25, 'Dr,H. Bachrudin', 'Thema Publishing', 2021, '9786239224523', 1, 0, 0, 'img1622431269.jpg', 270),
 (66, 'Seni Bersikap Santuy', 26, 'Elin Pash & Kyle Keller', 'Bhuana Ilmu Populer', 2021, '9786230404597', 5, 0, 0, 'img1622431421.jpeg', 40),
-(67, 'Temukan Dirimu Nikmati Hidupmu', 26, 'Dr. Maha Arab', 'Gemilang', 2021, '9786237162834', 4, 0, 0, '', 256),
+(67, 'Temukan Dirimu Nikmati Hidupmu', 26, 'Dr. Maha Arab', 'Gemilang', 2021, '9786237162834', 4, 0, 0, 'img1622696961.jpg', 256),
 (68, 'Seni Bahagia Menjadi Introver', 26, 'Sendy Saga', 'Gagasmedia', 2021, '9789797809737', 3, 0, 0, 'img1622433535.jpg', 180),
 (69, 'Melejitkan Potensi Otak Kanan', 26, 'Muhammad Nasrullah', 'Araska Publisher', 2021, '9786237537953', 2, 0, 0, 'img1622433591.jpg', 240),
 (70, 'The Art Positive Thinking', 26, 'Rifcka R.N', 'Araska Publisher', 2021, '9786237910015', 1, 0, 0, 'img1622433632.jpg', 240),
@@ -135,18 +137,20 @@ INSERT INTO `buku` (`id`, `judul_buku`, `id_kategori`, `pengarang`, `penerbit`, 
 CREATE TABLE `detail_pinjam` (
   `no_pinjam` varchar(12) DEFAULT NULL,
   `id_buku` int(11) DEFAULT NULL,
-  `denda` int(11) DEFAULT NULL
+  `denda` int(11) DEFAULT NULL,
+  `status_pinjam` enum('Pinjam','Kembali') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `detail_pinjam`
 --
 
-INSERT INTO `detail_pinjam` (`no_pinjam`, `id_buku`, `denda`) VALUES
-('30052021001', 28, 5000),
-('30052021001', 27, 5000),
-('30052021001', 26, 5000),
-('31052021002', 24, 5000);
+INSERT INTO `detail_pinjam` (`no_pinjam`, `id_buku`, `denda`, `status_pinjam`) VALUES
+('05062021001', 24, 5000, 'Kembali'),
+('05062021001', 25, 5000, 'Kembali'),
+('05062021002', 24, 5000, 'Kembali'),
+('05062021002', 25, 5000, 'Kembali'),
+('05062021002', 28, 5000, 'Kembali');
 
 -- --------------------------------------------------------
 
@@ -193,8 +197,8 @@ CREATE TABLE `pinjam` (
 --
 
 INSERT INTO `pinjam` (`no_pinjam`, `tgl_pinjam`, `id_booking`, `id_user`, `tgl_kembali`, `tgl_pengembalian`, `status`, `total_denda`) VALUES
-('30052021001', '2021-05-30', '30052021001', 31, '2021-05-31', '2021-05-31', 'Kembali', 0),
-('31052021002', '2021-05-31', '31052021001', 31, '2021-06-01', '0000-00-00', 'Pinjam', 0);
+('05062021001', '2021-06-05', '05062021001', 36, '2021-06-06', '0000-00-00', 'Pinjam', 0),
+('05062021002', '2021-06-05', '05062021001', 41, '2021-06-07', '0000-00-00', 'Pinjam', 0);
 
 -- --------------------------------------------------------
 
@@ -271,9 +275,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `nama`, `alamat`, `email`, `image`, `password`, `role_id`, `is_active`, `tanggal_input`, `no_telp`) VALUES
-(1, 'Andika Permana Sidiq', 'Blok Walahar I', 'andika@gmail.com', 'default.jpg', '$2y$10$YAE4AuK94fZtp9.K52yAjuOjllWjYzfBj0xsTBPvqe0FAghAsWVjC', 1, 1, 1606012478, '085321874357'),
+(1, 'Andikaps', 'Blok Walahar I', 'andika@gmail.com', 'pro1622857789.jpg', '$2y$10$DhGEh9XL57lrwe9oM0tylOBXX5y8PouzPGCqCS66FII1AczgJn8bW', 1, 1, 1606012478, '085321874357'),
 (31, 'Andika Permana Sidiq', 'Bandung', 'andikapermanasidiq00@gmail.com', 'pro1622385319.jpg', '$2y$10$uGWCNKVqP.uZ3w2yAyh6ZuHqYlIUChlQ1Cz3T2aaRdnQYSyOPoV7m', 2, 1, 1622181518, '085321874358'),
-(36, 'Andika Permana Sidiq', 'Bandung', 'andikapermanasidiq@gmail.com', 'default.jpg', '$2y$10$KP1jjpZtp.lS3fASydRuBeLRdRw0T3izQ1ZSU6yz6dgYi1FDSuGHW', 2, 1, 1622207991, '085321874358');
+(36, 'Andika Permana Sidiq', 'Bandung', 'andikapermanasidiq@gmail.com', 'default.jpg', '$2y$10$KP1jjpZtp.lS3fASydRuBeLRdRw0T3izQ1ZSU6yz6dgYi1FDSuGHW', 2, 1, 1622207991, '085321874358'),
+(41, 'dIkaps', 'Walahar I', '12191872@bsi.ac.id', 'pro1622857291.jpg', '$2y$10$yVNW4NsLplyCREcRo2WsOOUmwlMnGSlX3OE./P.vGtq3XTgOB2s56', 2, 1, 1622857199, '085321874357');
 
 -- --------------------------------------------------------
 
@@ -385,19 +390,19 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT untuk tabel `booking_detail`
 --
 ALTER TABLE `booking_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT untuk tabel `buku`
 --
 ALTER TABLE `buku`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT untuk tabel `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT untuk tabel `role`
@@ -415,19 +420,19 @@ ALTER TABLE `temp`
 -- AUTO_INCREMENT untuk tabel `token`
 --
 ALTER TABLE `token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT untuk tabel `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

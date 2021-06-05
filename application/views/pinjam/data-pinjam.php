@@ -40,7 +40,12 @@
                   <tr>
                     <td><?= $p['no_pinjam']; ?></td>
                     <td><?= date('d M Y', strtotime($p['tgl_pinjam'])); ?></td>
-                    <td><?= $p['id_user']; ?></td>
+                    <td>
+                      <?php
+                      $user = $this->db->get_where('user', ['id' => $p['id_user']])->row_array();
+                      echo $user['nama'];
+                      ?>
+                    </td>
                     <td><?= $p['judul_buku']; ?></td>
                     <td><?= date('d M Y', strtotime($p['tgl_kembali'])); ?></td>
 
@@ -88,7 +93,7 @@
                     </td>
 
                     <td nowrap>
-                      <?php if ($p['status'] == "Kembali") : ?>
+                      <?php if ($p['status_pinjam'] == "Kembali") : ?>
                         <button class="btn btn-sm btn-primary d-flex align-items-center" title="" id="edit"><i class="bi bi-check"></i></button>
                       <?php else : ?>
                         <button type="button" class="btn btn-sm btn-info btnStatus" data-bs-toggle="modal" data-bs-target="#border-less" data-idbuku="<?= $p['id_buku']; ?>" data-nopinjam="<?= $p['no_pinjam']; ?>">
